@@ -1,0 +1,27 @@
+CREATE TABLE products (
+product_id number,product_name varchar2(20),product_price number
+
+);
+INSERT INTO products VALUES ( 121, 'tv','45000' );
+create or replace function singleRow (p_id number)
+   return sys_refcursor
+is
+   c   sys_refcursor;
+begin
+   open c for
+      select *
+        from products
+       where product_id = p_id;
+
+   return c;
+end singleRow;
+
+declare
+c sys_refcursor;
+TYPE products is RECORD(product_id number,product_name varchar2(20),product_price number);
+rec products;
+begin
+  c:=singleRow(121);
+  fetch c into rec;
+  dbms_output.put_line(rec.product_id||','||rec.product_name||','||rec.product_price);
+end;

@@ -1,0 +1,28 @@
+CREATE TABLE employeee(
+  emp_id number(20),
+  emp_name varchar2(25),
+  
+  CONSTRAINT employeee_pk PRIMARY KEY (emp_id));
+CREATE TABLE department(
+  dept_id number(20),
+  dept_name varchar2(25),
+  
+  CONSTRAINT department_pk PRIMARY KEY (dept_id));
+CREATE OR REPLACE PROCEDURE Insert_multiple(emp_id IN number,emp_name IN varchar2,dept_id IN number,dept_name IN varchar2)IS
+  BEGIN     
+  insert into employeee values(emp_id,emp_name);
+  insert into department values(dept_id,dept_name);
+  END;     
+DECLARE
+BEGIN
+insert_multiple(101,'vaishu',5,'it');
+EXCEPTION
+ WHEN DUP_VAL_ON_INDEX THEN
+ dbms_output.put_line('unique index are repeated re enter data.');
+ rollback;
+ WHEN OTHERS THEN 
+ dbms_output.put_line('data types entered does not match re enter data.');
+ rollback;
+END;
+select * from employeee
+select * from department
